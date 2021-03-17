@@ -1,2 +1,1 @@
-# okd
-# okd
+# okd install
