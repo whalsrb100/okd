@@ -1,5 +1,5 @@
 OCP_RELEASE="4.7.0-0.okd-2021-02-25-144700"
-LOCAL_REGISTRY='bastion.mj1.growin.co.kr:5000'
+LOCAL_REGISTRY='bastion.growin.mj.co.kr:5000'
 LOCAL_REPOSITORY='openshift/okd'
 PRODUCT_REPO='openshift'
 RELEASE_NAME="okd"
