@@ -1,9 +1,11 @@
-OCP_RELEASE="4.7.0-0.okd-2021-02-25-144700"
-LOCAL_REGISTRY='bastion.growin.mj.co.kr:5000'
-LOCAL_REPOSITORY='openshift/okd'
-PRODUCT_REPO='openshift'
+#!/bin/bash
+source src/env
+OCP_RELEASE="${OCVersion}"
+LOCAL_REGISTRY="${BASTION_HOSTNAME}.${ClusterName}.${DomainName}:5000"
+LOCAL_REPOSITORY="openshift/okd"
+PRODUCT_REPO="openshift"
 RELEASE_NAME="okd"
-LOCAL_SECRET_JSON='/opt/registry/pull-secret'
+LOCAL_SECRET_JSON="${PullSecret}"
 
 GODEBUG=x509ignoreCN=0 oc adm -a ${LOCAL_SECRET_JSON} release mirror \
 --from=quay.io/${PRODUCT_REPO}/${RELEASE_NAME}:${OCP_RELEASE} \
