@@ -112,16 +112,16 @@ cat << EOF > /var/named/${ClusterName}.${DomainName}.rev
 					1H )	; minimum
 	IN NS		ns.${ClusterName}.${DomainName}.
         IN A            ${BASTION_IP}
-$(echp ${BOOTSTRAP_IP} | cut -d '.' -f4)     IN PTR          ${BOOTSTRAP_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echp ${MASTER1_IP} | cut -d '.' -f4)     IN PTR          ${MASTER1_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echp ${MASTER2_IP} | cut -d '.' -f4)     IN PTR          ${MASTER2_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echp ${MASTER3_IP} | cut -d '.' -f4)     IN PTR          ${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echp ${WORKER1_IP} | cut -d '.' -f4)     IN PTR          ${WORKER1_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echp ${WORKER2_IP} | cut -d '.' -f4)     IN PTR          ${WORKER2_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echp ${WORKER3_IP} | cut -d '.' -f4)     IN PTR          ${WORKER3_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echp ${WORKER4_IP} | cut -d '.' -f4)     IN PTR          ${WORKER4_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echp ${BASTION_IP} | cut -d '.' -f4)     IN PTR          api.${ClusterName}.${DomainName}.
-$(echp ${BASTION_IP} | cut -d '.' -f4)     IN PTR          api-int.${ClusterName}.${DomainName}.
+$(echo ${BOOTSTRAP_IP} | cut -d '.' -f4)     IN PTR          ${BOOTSTRAP_HOSTNAME}.${ClusterName}.${DomainName}.
+$(echo ${MASTER1_IP} | cut -d '.' -f4)     IN PTR          ${MASTER1_HOSTNAME}.${ClusterName}.${DomainName}.
+$(echo ${MASTER2_IP} | cut -d '.' -f4)     IN PTR          ${MASTER2_HOSTNAME}.${ClusterName}.${DomainName}.
+$(echo ${MASTER3_IP} | cut -d '.' -f4)     IN PTR          ${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}.
+$(echo ${WORKER1_IP} | cut -d '.' -f4)     IN PTR          ${WORKER1_HOSTNAME}.${ClusterName}.${DomainName}.
+$(echo ${WORKER2_IP} | cut -d '.' -f4)     IN PTR          ${WORKER2_HOSTNAME}.${ClusterName}.${DomainName}.
+$(echo ${WORKER3_IP} | cut -d '.' -f4)     IN PTR          ${WORKER3_HOSTNAME}.${ClusterName}.${DomainName}.
+$(echo ${WORKER4_IP} | cut -d '.' -f4)     IN PTR          ${WORKER4_HOSTNAME}.${ClusterName}.${DomainName}.
+$(echo ${BASTION_IP} | cut -d '.' -f4)     IN PTR          api.${ClusterName}.${DomainName}.
+$(echo ${BASTION_IP} | cut -d '.' -f4)     IN PTR          api-int.${ClusterName}.${DomainName}.
 EOF
 chmod 640 /var/named/${ClusterName}.${DomainName}.rev
 chown root.named /var/named/${ClusterName}.${DomainName}.rev
