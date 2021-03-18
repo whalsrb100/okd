@@ -1,5 +1,7 @@
 #!/bin/bash
 source src/env
+hostnamectl set-hostname ${BASTION_HOSTNAME}.${ClusterName}.${DomainName}
+systemctl restart rsyslog
 sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 setenforce 0
 systemctl disable --now firewalld
