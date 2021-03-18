@@ -147,9 +147,9 @@ echo "{" >> ${SAVEFILE}
 echo "	range ${DHCPRANGEFROM} ${DHCPRANGETO};" >> ${SAVEFILE}
 echo "	next-server ${DHCPSERVERIP};" >> ${SAVEFILE}
 echo "	if option arch = 00:07 {" >> ${SAVEFILE}
-echo "	filename "/BOOTX64.EFI";" >> ${SAVEFILE}
+echo "	filename \"/BOOTX64.EFI\";" >> ${SAVEFILE}
 echo "	}else{" >> ${SAVEFILE}
-echo "	filename "pxelinux.0";" >> ${SAVEFILE}
+echo "	filename \"pxelinux.0\";" >> ${SAVEFILE}
 echo "	}" >> ${SAVEFILE}
 echo "}" >> ${SAVEFILE}
 echo "saved file:\"${SAVEFILE}\"."

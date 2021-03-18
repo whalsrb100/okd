@@ -101,7 +101,7 @@ zone "${InverseNetwork}.in-addr.arpa" IN {
 };
 EOF
 chmod 640 /etc/named/growin.zones
-chown root.root /etc/named/growin.zones
+chown root.named /etc/named/growin.zones
 cat << EOF > /var/named/${ClusterName}.${DomainName}.rev
 \$TTL 3600
 @	IN SOA	@ ns3.${ClusterName}.${DomainName}. (

@@ -2,8 +2,8 @@
 HTTP_HOME='/var/www/html'
 OKD_HOME="${HTTP_HOME}/okd"
 LOCAL_NTP_NETWORK=192.168.150.128/25
-ClusterName=growin
-DomainName=mj.co.kr
+ClusterName=mj
+DomainName=growin.co.kr
 SubnetMask=255.255.255.128
 Prefix=25
 PxeIfname=enp3s0
@@ -43,9 +43,9 @@ rootfs_img="${RootfsPath}/${RootFSFileName}"
 
 # SSL
 CRT='/opt/registry/certs/domain.crt'
+KEY='/opt/registry/certs/domain.key'
 
 HTPASS_USER='admin'
 HTPASS_PW='admin'
 PullSecret='/opt/registry/pull-secret'
 OCVersion=$(/usr/local/bin/oc version | awk '{print $NF}')
-
