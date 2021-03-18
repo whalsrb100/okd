@@ -1,6 +1,7 @@
 #!/bin/bash
-openshift-install create manifests --dir=/var/www/html/okd
-openshift-install create ignition-configs --dir=/var/www/html/okd
+source src/env
+openshift-install create manifests --dir=${OKD_HOME}
+openshift-install create ignition-configs --dir=${OKD_HOME}
 
-chown apache. -R /var/www/html/
+chown apache. -R ${HTTP_HOME}/
 

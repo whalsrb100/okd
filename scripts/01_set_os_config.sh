@@ -1,4 +1,5 @@
 #!/bin/bash
+source src/env
 sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 setenforce 0
 systemctl disable --now firewalld

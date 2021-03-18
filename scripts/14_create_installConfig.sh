@@ -1,6 +1,22 @@
 #!/bin/bash
+source src/env
 
-cat << EOF > /var/www/html/install-config.yaml
+rm -f ~/.ssh/{id_rsa,id_rsa.pub}
+
+expect -c "
+set timeout 2
+spawn ssh-keygen -t rsa
+expect ':'
+	send \"\\n\"
+expect ':'
+	send \"\\n\"
+expect ':'
+	send \"\\n\"
+expect eof
+"
+
+
+cat << EOF > ${HTTP_HOME}/install-config.yaml
 apiVersion: v1
 baseDomain: ${DomainName}
 metadata:
@@ -32,7 +48,7 @@ fips: false
 pullSecret: '{"auths":{"${BASTION_HOSTNAME}.${ClusterName}.${DomainName}:5000":{"auth":"YWRtaW46YWRtaW4="}}}'
 sshKey: '$(cat /root/.ssh/id_rsa.pub)'
 additionalTrustBundle: |
-$(cat ${CRT} | sed -s '/^/  /g')
+$(cat ${CRT} | sed 's/^/  /g')
 imageContentSources:
 - mirrors:
   - ${BASTION_HOSTNAME}.${ClusterName}.${DomainName}:5000/openshift/okd
@@ -41,7 +57,9 @@ imageContentSources:
   - ${BASTION_HOSTNAME}.${ClusterName}.${DomainName}:5000/openshift/okd
   source: quay.io/openshift/okd-content
 EOF
-rm -rf /var/www/html/okd
-mkdir /var/www/html/okd/
-cp /var/www/html/install-config.yaml /var/www/html/okd/
-chown apache. -R /var/www/html/
+if [ -d ${OKD_HOME} ];then
+rm -rf ${OKD_HOME}
+fi
+mkdir ${OKD_HOME}/
+cp ${HTTP_HOME}/install-config.yaml ${OKD_HOME}/
+chown apache. -R ${HTTP_HOME}/

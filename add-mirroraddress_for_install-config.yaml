@@ -1,7 +1,0 @@
-imageContentSources:
-- mirrors:
-  - bastion.mj.growin.co.kr:5000/openshift/okd
-  source: quay.io/openshift/okd
-- mirrors:
-  - bastion.mj.growin.co.kr:5000/openshift/okd
-  source: quay.io/openshift/okd-content
