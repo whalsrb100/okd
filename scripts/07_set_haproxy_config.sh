@@ -100,10 +100,10 @@ frontend openshift-api-server
 backend openshift-api-server
     balance source
     mode tcp
-    server ${BOOTSTRAP_HOSTNAME} ${BOOTSTRAP_IP}:6443 check
-    server ${MASTER1_HOSTNAME} ${MASTER1_IP}:6443 check
-    server ${MASTER2_HOSTNAME} ${MASTER2_IP}:6443 check
-    server ${MASTER3_HOSTNAME} ${MASTER3_IP}:6443 check
+    server ${BOOTSTRAP_HOSTNAME}.${ClusterName}.${DomainName} ${BOOTSTRAP_IP}:6443 check
+    server ${MASTER1_HOSTNAME}.${ClusterName}.${DomainName} ${MASTER1_IP}:6443 check
+    server ${MASTER2_HOSTNAME}.${ClusterName}.${DomainName} ${MASTER2_IP}:6443 check
+    server ${MASTER3_HOSTNAME}.${ClusterName}.${DomainName} ${MASTER3_IP}:6443 check
 frontend machine-config-server
     bind *:22623
     default_backend machine-config-server
@@ -112,10 +112,10 @@ frontend machine-config-server
 backend machine-config-server
     balance source
     mode tcp
-    server ${BOOTSTRAP_HOSTNAME} ${BOOTSTRAP_IP}:22623 check
-    server ${MASTER1_HOSTNAME} ${MASTER1_IP}:22623 check
-    server ${MASTER2_HOSTNAME} ${MASTER2_IP}:22623 check
-    server ${MASTER3_HOSTNAME} ${MASTER3_IP}:22623 check
+    server ${BOOTSTRAP_HOSTNAME}.${ClusterName}.${DomainName} ${BOOTSTRAP_IP}:22623 check
+    server ${MASTER1_HOSTNAME}.${ClusterName}.${DomainName} ${MASTER1_IP}:22623 check
+    server ${MASTER2_HOSTNAME}.${ClusterName}.${DomainName} ${MASTER2_IP}:22623 check
+    server ${MASTER3_HOSTNAME}.${ClusterName}.${DomainName} ${MASTER3_IP}:22623 check
 frontend ingress-http
     bind *:80
     default_backend ingress-http
@@ -124,10 +124,10 @@ frontend ingress-http
 backend ingress-http
     balance source
     mode tcp
-    server ${WORKER1_HOSTNAME} ${WORKER1_IP}:80 check
-    server ${WORKER2_HOSTNAME} ${WORKER2_IP}:80 check
-    server ${WORKER3_HOSTNAME} ${WORKER3_IP}:80 check
-    server ${WORKER4_HOSTNAME} ${WORKER4_IP}:80 check
+    server ${WORKER1_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER1_IP}:80 check
+    server ${WORKER2_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER2_IP}:80 check
+    server ${WORKER3_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER3_IP}:80 check
+    server ${WORKER4_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER4_IP}:80 check
 frontend ingress-https
     bind *:443
     default_backend ingress-https
@@ -136,9 +136,9 @@ frontend ingress-https
 backend ingress-https
     balance source
     mode tcp
-    server ${WORKER1_HOSTNAME} ${WORKER1_IP}:443 check
-    server ${WORKER2_HOSTNAME} ${WORKER2_IP}:443 check
-    server ${WORKER3_HOSTNAME} ${WORKER3_IP}:443 check
-    server ${WORKER4_HOSTNAME} ${WORKER4_IP}:443 check
+    server ${WORKER1_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER1_IP}:443 check
+    server ${WORKER2_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER2_IP}:443 check
+    server ${WORKER3_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER3_IP}:443 check
+    server ${WORKER4_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER4_IP}:443 check
 EOF
 systemctl enable --now haproxy

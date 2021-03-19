@@ -104,7 +104,7 @@ while [ ${IsRight} -eq 0 ];do
   IsRight=1
   echo -en "DHCP RANGE (ex:${DHCPRANGEFROM}-${DHCPRANGETO}): "
   read INPUT
-  INPUT=$(echo ${INPUT} | sed 's/ //g' | sed 's/\t//g')
+  INPUT=$(echo -n ${INPUT} | sed 's/ //g' | sed 's/\t//g')
   if [ ${INPUT} ];then
     DHCPRANGEFROM_TMP=$(echo ${INPUT} | cut -d '-' -f1)
     DHCPRANGETO_TMP=$(echo ${INPUT} | cut -d '-' -f2)
@@ -125,15 +125,15 @@ while [ ${IsRight} -eq 0 ];do
   fi
 done
 
-cnt=1
-while [ true ];do
-  if [ -f ${SAVEFILE} ];then
-    SAVEFILE="${SAVEFILE}_${cnt}"
-  else
-    break
-  fi
-  cnt=$(expr ${cnt} \+ 1)
-done
+#cnt=1
+#while [ true ];do
+#  if [ -f ${SAVEFILE} ];then
+#    SAVEFILE="${SAVEFILE}_${cnt}"
+#  else
+#    break
+#  fi
+#  cnt=$(expr ${cnt} \+ 1)
+#done
 echo "allow booting;" > ${SAVEFILE}
 echo "allow bootp;" >> ${SAVEFILE}
 echo "ddns-update-style none;" >> ${SAVEFILE}
