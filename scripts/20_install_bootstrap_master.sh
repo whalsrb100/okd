@@ -19,6 +19,20 @@ echo -e "\nPlease Install \"${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}\" N
 while [ "$(ssh core@${MASTER3_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
 echo -e "\n${MASTER3_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
 
+echo "Check finished deploy coreos"
+while [ $(ssh core@${MASTER1_HOSTNAME}.${ClusterName}.${DomainName} "journalctl | grep 'Created new deployment /ostree/deploy/fedora-coreos/deploy/' | wc -l") -ne 3 ];do sleep 2;done
+echo "[${MASTER1_HOSTNAME}.${ClusterName}.${DomainName}] O K"
+while [ $(ssh core@${MASTER2_HOSTNAME}.${ClusterName}.${DomainName} "journalctl | grep 'Created new deployment /ostree/deploy/fedora-coreos/deploy/' | wc -l") -ne 3 ];do sleep 2;done
+echo "[${MASTER2_HOSTNAME}.${ClusterName}.${DomainName}] O K"
+while [ $(ssh core@${MASTER3_HOSTNAME}.${ClusterName}.${DomainName} "journalctl | grep 'Created new deployment /ostree/deploy/fedora-coreos/deploy/' | wc -l") -ne 3 ];do sleep 2;done
+echo "[${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}] O K"
+
+
 echo -ne "\nExecute Command: openshift-install wait-for bootstrap-complete --dir=${OKD_HOME} --log-level debug"
 for i in $(seq 1 3);do echo -n '.';done && echo
 openshift-install wait-for bootstrap-complete --dir=${OKD_HOME} --log-level debug
+
+while [ $(for i in ${MASTER1_HOSTNAME} ${MASTER2_HOSTNAME} ${MASTER3_HOSTNAME};do ssh ${i}.${ClusterName}.${DomainName} -l core "journalctl | grep status=Running | wc -l";done | awk '{printf $1"+"}' | sed 's/+$/\n/' | bc) -lt 103 ];do
+  sleep 5
+done
+echo 'Running Containers Check ok'
