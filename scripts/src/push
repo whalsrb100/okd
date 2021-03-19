@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+git add -A
+git commit -m "20210319"
+expect -c "
+set timeout 2
+spawn git push origin main
+expect ':'
+	send \"whalsrb100@gmail.com\\n\"
+expect ':'
+	send \"Mj@13243546!#@$\\n\"
+expect eof
+"
+
