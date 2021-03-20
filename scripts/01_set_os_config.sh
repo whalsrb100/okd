@@ -20,3 +20,6 @@ baseurl=file:///media/BaseOS
 gpgcheck=0
 enabled=1
 EOF
+
+sed -i "s/#   StrictHostKeyChecking ask/   StrictHostKeyChecking no/" /etc/ssh/ssh_config
+systemctl restart sshd

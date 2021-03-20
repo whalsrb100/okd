@@ -27,7 +27,7 @@ rtcsync
 #minsources 2
 
 # Allow NTP client access from local network.
-allow ${LOCAL_NTP_NETWORK}
+#allow ${LOCAL_NTP_NETWORK}
 
 # Serve time even if not synchronized to a time source.
 #local stratum 10
