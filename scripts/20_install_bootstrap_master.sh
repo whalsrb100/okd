@@ -16,33 +16,32 @@ default_cnt=0
 ################################################
 
 function default_count_add() {
-default_cnt=$(expr ${default_cnt} \+ 1)
+default_cnt=${1}
 sed -i "s/prompt\s./prompt ${default_cnt}/" /var/lib/tftpboot/pxelinux.cfg/default
 }
 
-default_cnt=0
 sed -i "s/prompt\s./prompt ${default_cnt}/" /var/lib/tftpboot/pxelinux.cfg/default
 echo "Please Install \"${BOOTSTRAP_HOSTNAME}.${ClusterName}.${DomainName}\" Node"
 while [ "$(ssh core@${BOOTSTRAP_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${BOOTSTRAP_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
 echo -e "\n${BOOTSTRAP_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
-default_count_add
+default_count_add 0
 echo -ne "Wait for bootstrap health check"
 while [ $(ssh core@${BOOTSTRAP_HOSTNAME}.${ClusterName}.${DomainName} "journalctl -b | grep 'healthy: successfully committed proposal'" 2> /dev/null | wc -l) -ne 1 ];do sleep 5;echo -n ".";done
 
 echo -e \n"Please Install \"${MASTER1_HOSTNAME}.${ClusterName}.${DomainName}\" Node"
 while [ "$(ssh core@${MASTER1_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${MASTER1_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
 echo -e "\n${MASTER1_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
-default_count_add
+default_count_add 1
 
 echo -e "\nPlease Install \"${MASTER2_HOSTNAME}.${ClusterName}.${DomainName}\" Node"
 while [ "$(ssh core@${MASTER2_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${MASTER2_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
 echo -e "\n${MASTER2_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
-default_count_add
+default_count_add 2
 
 echo -e "\nPlease Install \"${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}\" Node"
 while [ "$(ssh core@${MASTER3_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
 echo -e "\n${MASTER3_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
-default_count_add
+default_count_add 3
 
 echo "Check finished deploy coreos"
 while [ $(ssh core@${MASTER1_HOSTNAME}.${ClusterName}.${DomainName} "journalctl | grep 'Created new deployment /ostree/deploy/fedora-coreos/deploy/' | wc -l") -ne 3 ];do sleep 2;done
