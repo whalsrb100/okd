@@ -17,12 +17,12 @@ function default_count_add() {
 sed -i "s/prompt\s.*/prompt ${1}/" /var/lib/tftpboot/pxelinux.cfg/default
 }
 
-default_count_add ${WORKER1_HOSTNAME}
+default_count_add "4"
 echo "Please Install \"${WORKER1_HOSTNAME}.${ClusterName}.${DomainName}\" Node"
 while [ "$(ssh core@${WORKER1_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${WORKER1_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
 echo -e "\n${WORKER1_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
 
-default_count_add ${WORKER2_HOSTNAME}
+default_count_add "5"
 echo "Please Install \"${WORKER2_HOSTNAME}.${ClusterName}.${DomainName}\" Node"
 while [ "$(ssh core@${WORKER2_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${WORKER2_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
 echo -e "\n${WORKER2_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
