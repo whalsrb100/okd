@@ -15,7 +15,7 @@ source src/env
 ################################################
 
 function default_count_add() {
-sed -i "s/prompt\s*/prompt ${1}/" /var/lib/tftpboot/pxelinux.cfg/default
+sed -i "s/prompt\s.*/prompt ${1}/" /var/lib/tftpboot/pxelinux.cfg/default
 }
 
 default_count_add ${BOOTSTRAP_HOSTNAME}
