@@ -17,12 +17,18 @@ function modify_default() {
 sed -i "s/default\s.*/default ${1}/" /var/lib/tftpboot/pxelinux.cfg/default
 }
 
-modify_default ${WORKER1_HOSTNAME}
-echo "Please Install \"${WORKER1_HOSTNAME}.${ClusterName}.${DomainName}\" Node"
-while [ "$(ssh core@${WORKER1_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${WORKER1_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
-echo -e "\n${WORKER1_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
 
-modify_default ${WORKER2_HOSTNAME}
-echo "Please Install \"${WORKER2_HOSTNAME}.${ClusterName}.${DomainName}\" Node"
-while [ "$(ssh core@${WORKER2_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${WORKER2_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
-echo -e "\n${WORKER2_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
+
+
+for i in $(seq 1 ${WORKER_NUM});do
+  WORKER_HOSTNAME=$(eval echo \$WORKER${i}_HOSTNAME)
+  WORKER_IP=$(eval echo \$WORKER${i}_IP)
+  if [ ${WORKER_HOSTNAME} ];then
+    if [ ${WORKER_IP} ];then
+      modify_default ${WORKER_HOSTNAME}
+      echo "Please Install \"${WORKER_HOSTNAME}.${ClusterName}.${DomainName}\" Node"
+      while [ "$(ssh core@${WORKER_HOSTNAME}.${ClusterName}.${DomainName} 'hostname' 2> /dev/null)" != "${WORKER_HOSTNAME}.${ClusterName}.${DomainName}" ];do sleep 10;echo -n ".";done
+      echo -e "\n${WORKER_HOSTNAME}.${ClusterName}.${DomainName} Installed !"
+    fi
+  fi
+done
