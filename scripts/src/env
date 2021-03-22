@@ -63,4 +63,4 @@ KEY='/opt/registry/certs/domain.key'
 HTPASS_USER='admin'
 HTPASS_PW='admin'
 PullSecret='/opt/registry/pull-secret'
-OCVersion=$(/usr/local/bin/oc version | awk '{print $NF}')
+OCVersion=$(/usr/local/bin/oc version | awk '{print $NF}' | head -n 1)
