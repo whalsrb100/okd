@@ -33,31 +33,22 @@ menu label ${MASTER3_HOSTNAME}
 KERNEL ${kernel_file}
 APPEND ksdevice=bootif initrd=${initrd_img} network console=tty0 console=ttyS0 coreos.live.rootfs_url=http://${BASTION_IP}:8080/${rootfs_img} coreos.inst.install_dev=vda coreos.inst.ignition_url=http://${BASTION_IP}:8080/okd/master.ign ip=${MASTER3_IP}::${DEFAULT_GATEWAY}:${SubnetMask}:${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}:${PxeIfname}:none nameserver=${DNS}
 #IPAPPEND 2
-
-LABEL ${WORKER1_HOSTNAME}
-menu label ${WORKER1_HOSTNAME}
-KERNEL ${kernel_file}
-APPEND ksdevice=bootif initrd=${initrd_img} network console=tty0 console=ttyS0 coreos.live.rootfs_url=http://${BASTION_IP}:8080/${rootfs_img} coreos.inst.install_dev=vda coreos.inst.ignition_url=http://${BASTION_IP}:8080/okd/worker.ign ip=${WORKER1_IP}::${DEFAULT_GATEWAY}:${SubnetMask}:${WORKER1_HOSTNAME}.${ClusterName}.${DomainName}:${PxeIfname}:none nameserver=${DNS}
-#IPAPPEND 2
-
-LABEL ${WORKER2_HOSTNAME}
-menu label ${WORKER2_HOSTNAME}
-KERNEL ${kernel_file}
-APPEND ksdevice=bootif initrd=${initrd_img} network console=tty0 console=ttyS0 coreos.live.rootfs_url=http://${BASTION_IP}:8080/${rootfs_img} coreos.inst.install_dev=vda coreos.inst.ignition_url=http://${BASTION_IP}:8080/okd/worker.ign ip=${WORKER2_IP}::${DEFAULT_GATEWAY}:${SubnetMask}:${WORKER2_HOSTNAME}.${ClusterName}.${DomainName}:${PxeIfname}:none nameserver=${DNS}
-#IPAPPEND 2
-
-LABEL ${WORKER3_HOSTNAME}
-menu label ${WORKER3_HOSTNAME}
-KERNEL ${kernel_file}
-APPEND ksdevice=bootif initrd=${initrd_img} network console=tty0 console=ttyS0 coreos.live.rootfs_url=http://${BASTION_IP}:8080/${rootfs_img} coreos.inst.install_dev=vda coreos.inst.ignition_url=http://${BASTION_IP}:8080/okd/worker.ign ip=${WORKER3_IP}::${DEFAULT_GATEWAY}:${SubnetMask}:${WORKER3_HOSTNAME}.${ClusterName}.${DomainName}:${PxeIfname}:none nameserver=${DNS}
-#IPAPPEND 2
-
-LABEL ${WORKER4_HOSTNAME}
-menu label ${WORKER4_HOSTNAME}
-KERNEL ${kernel_file}
-APPEND ksdevice=bootif initrd=${initrd_img} network console=tty0 console=ttyS0 coreos.live.rootfs_url=http://${BASTION_IP}:8080/${rootfs_img} coreos.inst.install_dev=vda coreos.inst.ignition_url=http://${BASTION_IP}:8080/okd/worker.ign ip=${WORKER4_IP}::${DEFAULT_GATEWAY}:${SubnetMask}:${WORKER4_HOSTNAME}.${ClusterName}.${DomainName}:${PxeIfname}:none nameserver=${DNS}
-#IPAPPEND 2
 EOF
+for i in $(seq 1 ${WORKER_NUM});do
+  WORKER_HOSTNAME=$(eval echo \$WORKER${i}_HOSTNAME)
+  WORKER_IP=$(eval echo \$WORKER${i}_IP)
+  if [ ${WORKER_HOSTNAME} ];then
+    if [ ${WORKER_IP} ];then
+      echo "" >> /var/lib/tftpboot/pxelinux.cfg/default
+      echo "LABEL ${WORKER_HOSTNAME}" >> /var/lib/tftpboot/pxelinux.cfg/default
+      echo "menu label ${WORKER_HOSTNAME}" >> /var/lib/tftpboot/pxelinux.cfg/default
+      echo "KERNEL ${kernel_file}" >> /var/lib/tftpboot/pxelinux.cfg/default
+      echo "APPEND ksdevice=bootif initrd=${initrd_img} network console=tty0 console=ttyS0 coreos.live.rootfs_url=http://${BASTION_IP}:8080/${rootfs_img} coreos.inst.install_dev=vda coreos.inst.ignition_url=http://${BASTION_IP}:8080/okd/worker.ign ip=${WORKER_IP}::${DEFAULT_GATEWAY}:${SubnetMask}:${WORKER_HOSTNAME}.${ClusterName}.${DomainName}:${PxeIfname}:none nameserver=${DNS}" >> /var/lib/tftpboot/pxelinux.cfg/default
+      echo "#IPAPPEND 2" >> /var/lib/tftpboot/pxelinux.cfg/default
+    fi
+  fi
+done
+
+
 systemctl disable tftp.socket
 systemctl start tftp.socket
-
