@@ -50,7 +50,7 @@ echo "[${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}] O K"
 
 
 echo -ne "\nExecute Command: openshift-install wait-for bootstrap-complete --dir=${OKD_HOME} --log-level debug"
-for i in $(seq 1 3);do echo -n '.';done && echo
+for i in $(seq 3 -1 1);do sleep 0.5;echo -ne "${i}";sleep 0.5;echo -en "\r";done && echo
 openshift-install wait-for bootstrap-complete --dir=${OKD_HOME} --log-level debug
 
 while [ $(for i in ${MASTER1_HOSTNAME} ${MASTER2_HOSTNAME} ${MASTER3_HOSTNAME};do ssh ${i}.${ClusterName}.${DomainName} -l core "journalctl | grep status=Running | wc -l";done | awk '{printf $1"+"}' | sed 's/+$/\n/' | bc) -lt 103 ];do
