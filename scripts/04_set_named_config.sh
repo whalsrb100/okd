@@ -116,10 +116,18 @@ $(echo ${BOOTSTRAP_IP} | cut -d '.' -f4)     IN PTR          ${BOOTSTRAP_HOSTNAM
 $(echo ${MASTER1_IP} | cut -d '.' -f4)     IN PTR          ${MASTER1_HOSTNAME}.${ClusterName}.${DomainName}.
 $(echo ${MASTER2_IP} | cut -d '.' -f4)     IN PTR          ${MASTER2_HOSTNAME}.${ClusterName}.${DomainName}.
 $(echo ${MASTER3_IP} | cut -d '.' -f4)     IN PTR          ${MASTER3_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echo ${WORKER1_IP} | cut -d '.' -f4)     IN PTR          ${WORKER1_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echo ${WORKER2_IP} | cut -d '.' -f4)     IN PTR          ${WORKER2_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echo ${WORKER3_IP} | cut -d '.' -f4)     IN PTR          ${WORKER3_HOSTNAME}.${ClusterName}.${DomainName}.
-$(echo ${WORKER4_IP} | cut -d '.' -f4)     IN PTR          ${WORKER4_HOSTNAME}.${ClusterName}.${DomainName}.
+EOF
+for i in $(seq 1 ${WORKER_NUM});do
+  WORKER_HOSTNAME=$(eval echo \$WORKER${i}_HOSTNAME)
+  WORKER_IP=$(eval echo \$WORKER${i}_IP)
+  if [ ${WORKER_HOSTNAME} ];then
+    if [ ${WORKER_IP} ];then
+      echo "$(echo ${WORKER_IP} | cut -d '.' -f4)     IN PTR          ${WORKER_HOSTNAME}.${ClusterName}.${DomainName}." >> /var/named/${ClusterName}.${DomainName}.rev
+    fi
+  fi
+done
+
+cat << EOF >> /var/named/${ClusterName}.${DomainName}.rev
 $(echo ${BASTION_IP} | cut -d '.' -f4)     IN PTR          api.${ClusterName}.${DomainName}.
 $(echo ${BASTION_IP} | cut -d '.' -f4)     IN PTR          api-int.${ClusterName}.${DomainName}.
 EOF
@@ -143,10 +151,19 @@ ${BOOTSTRAP_HOSTNAME}     IN A ${BOOTSTRAP_IP}
 ${MASTER1_HOSTNAME}       IN A ${MASTER1_IP}
 ${MASTER2_HOSTNAME}       IN A ${MASTER2_IP}
 ${MASTER3_HOSTNAME}       IN A ${MASTER3_IP}
-${WORKER1_HOSTNAME}       IN A ${WORKER1_IP}
-${WORKER2_HOSTNAME}       IN A ${WORKER2_IP}
-${WORKER3_HOSTNAME}       IN A ${WORKER3_IP}
-${WORKER4_HOSTNAME}       IN A ${WORKER4_IP}
+EOF
+
+for i in $(seq 1 ${WORKER_NUM});do
+  WORKER_HOSTNAME=$(eval echo \$WORKER${i}_HOSTNAME)
+  WORKER_IP=$(eval echo \$WORKER${i}_IP)
+  if [ ${WORKER_HOSTNAME} ];then
+    if [ ${WORKER_IP} ];then
+      echo "${WORKER_HOSTNAME}       IN A ${WORKER_IP}" >> /var/named/${ClusterName}.${DomainName}.zone
+    fi
+  fi
+done
+
+cat << EOF >> /var/named/${ClusterName}.${DomainName}.zone
 etcd-0-okd    IN A ${MASTER1_IP}
 etcd-1-okd    IN A ${MASTER2_IP}
 etcd-2-okd    IN A ${MASTER3_IP}
