@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORKER_NODE_NUM=2
+ADDWORKER=2
 
 HTTP_HOME='/var/www/html'
 OKD_HOME="${HTTP_HOME}/okd"
