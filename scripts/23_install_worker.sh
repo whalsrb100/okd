@@ -13,10 +13,6 @@ source src/env
 # 7 : worker4
 ################################################
 
-KUBECONFIG=${OKD_HOME}/auth/kubeconfig oc get csr | grep -i pending
-
-
-
 function modify_default() {
 sed -i "s/default\s.*/default ${1}/" /var/lib/tftpboot/pxelinux.cfg/default
 }
