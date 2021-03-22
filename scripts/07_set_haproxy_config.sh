@@ -124,10 +124,18 @@ frontend ingress-http
 backend ingress-http
     balance source
     mode tcp
-    server ${WORKER1_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER1_IP}:80 check
-    server ${WORKER2_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER2_IP}:80 check
-    server ${WORKER3_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER3_IP}:80 check
-    server ${WORKER4_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER4_IP}:80 check
+EOF
+for i in $(seq 1 ${WORKER_NUM});do
+  WORKER_HOSTNAME=$(eval echo \$WORKER${i}_HOSTNAME)
+  WORKER_IP=$(eval echo \$WORKER${i}_IP)
+  if [ ${WORKER_HOSTNAME} ];then
+    if [ ${WORKER_IP} ];then
+      echo "    server ${WORKER_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER_IP}:80 check" >> /etc/haproxy/haproxy.cfg
+    fi
+  fi
+done
+
+cat << EOF >> /etc/haproxy/haproxy.cfg
 frontend ingress-https
     bind *:443
     default_backend ingress-https
@@ -136,9 +144,14 @@ frontend ingress-https
 backend ingress-https
     balance source
     mode tcp
-    server ${WORKER1_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER1_IP}:443 check
-    server ${WORKER2_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER2_IP}:443 check
-    server ${WORKER3_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER3_IP}:443 check
-    server ${WORKER4_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER4_IP}:443 check
 EOF
+for i in $(seq 1 ${WORKER_NUM});do
+  WORKER_HOSTNAME=$(eval echo \$WORKER${i}_HOSTNAME)
+  WORKER_IP=$(eval echo \$WORKER${i}_IP)
+  if [ ${WORKER_HOSTNAME} ];then
+    if [ ${WORKER_IP} ];then
+      echo "    server ${WORKER_HOSTNAME}.${ClusterName}.${DomainName} ${WORKER_IP}:443 check" >> /etc/haproxy/haproxy.cfg
+    fi
+  fi
+done
 systemctl enable --now haproxy
