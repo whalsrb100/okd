@@ -1,6 +1,12 @@
 #!/bin/bash
 source src/env
 
+sed -i "s/^#allow 192.168.0.0\/16/allow $(echo ${LOCAL_NTP_NETWORK} | sed 's/\//\\\//')/" /etc/chrony.conf
+sed -i "s/^#local stratum 10/local stratum 10/" /etc/chrony.conf
+sed -i "s/^pool/#pool/g" /etc/chrony.conf
+sed -i "s/^server/#server/g" /etc/chrony.conf
+systemctl enable --now chronyd
+
 cat << EOF > ${HTTP_HOME}/chrony.conf
 # Use public servers from the pool.ntp.org project.
 # Please consider joining the pool (https://www.pool.ntp.org/join.html).
