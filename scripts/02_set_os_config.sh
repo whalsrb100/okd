@@ -1,25 +1,13 @@
 #!/bin/bash
+vim src/env
+[root@bastion scripts]# cat 02_set_os_config.sh 
+#!/bin/bash
 source src/env
 hostnamectl set-hostname ${BASTION_HOSTNAME}.${ClusterName}.${DomainName}
 systemctl restart rsyslog systemd-hostnamed
 sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 setenforce 0
 systemctl disable --now firewalld
-
-sed -i 's/enabled=1/enabled=0/g' /etc/yum.repos.d/*
-cat << EOF > /etc/yum.repos.d/local.repo
-[AppStream_iso]
-name=AppStream_iso
-baseurl=file:///media/AppStream
-gpgcheck=0
-enabled=1
-
-[BaseOS_iso]
-name=BaseOS_iso
-baseurl=file:///media/BaseOS
-gpgcheck=0
-enabled=1
-EOF
 
 sed -i "s/#   StrictHostKeyChecking ask/   StrictHostKeyChecking no/" /etc/ssh/ssh_config
 systemctl restart sshd
