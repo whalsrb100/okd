@@ -13,6 +13,7 @@ source src/env
 # 6 : worker3
 # 7 : worker4
 ################################################
+rm -f ~/.ssh/known_hosts
 
 function modify_default() {
 sed -i "s/default\s.*/default ${1}/" /var/lib/tftpboot/pxelinux.cfg/default
