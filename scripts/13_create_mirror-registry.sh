@@ -2,6 +2,7 @@
 
 source src/env
 mode=0
+podman rm -f mirror-registry
 if [ ${mode} -eq 0 ];then
 podman run --name mirror-registry -p 5000:5000 \
 -v /opt/registry/data:/var/lib/registry \
@@ -9,7 +10,7 @@ podman run --name mirror-registry -p 5000:5000 \
 -v /opt/registry/certs:/certs \
 -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
 -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
--d docker.io/library/registry
+-d docker.io/library/registry:2.6
 
 elif [ ${mode} -eq 1 ];then
 # No Authenticate
