@@ -61,3 +61,24 @@ logdir /var/log/chrony
 #
 server ${BASTION_IP}
 EOF
+
+cat << EOF > ${HTTP_HOME}/registries.conf
+[[registry]]
+location = "quay.io/openshift/okd"
+insecure = false
+mirror-by-digest-only = true
+
+[[registry.mirror]]
+location = "${BASTION_HOSTNAME}.${ClusterName}.${DomainName}:5000/openshift/okd"
+insecure = true
+
+
+[[registry]]
+location = "quay.io/openshift/okd-content"
+insecure = false
+mirror-by-digest-only = true
+
+[[registry.mirror]]
+location = "${BASTION_HOSTNAME}.${ClusterName}.${DomainName}:5000/openshift/okd"
+insecure = true
+EOF
