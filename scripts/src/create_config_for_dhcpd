@@ -141,7 +141,6 @@ echo "default-lease-time 6000;" >> ${SAVEFILE}
 echo "max-lease-time 7200;" >> ${SAVEFILE}
 echo "option subnet-mask ${DHCPSUBNETMASK};" >> ${SAVEFILE}
 echo "#option routers ${DHCPSERVERIP};" >> ${SAVEFILE}
-echo "option time-offset 32400;" >> ${SAVEFILE}
 echo "option arch code 93 = unsigned integer 16;" >> ${SAVEFILE}
 echo "subnet ${DHCPNETWORK} netmask ${DHCPSUBNETMASK}" >> ${SAVEFILE}
 echo "{" >> ${SAVEFILE}
