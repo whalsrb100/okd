@@ -3,17 +3,20 @@ source src/env
 
 rm -f ~/.ssh/{id_rsa,id_rsa.pub}
 
-expect -c "
-set timeout 2
-spawn ssh-keygen -t rsa
-expect ':'
-	send \"\\n\"
-expect ':'
-	send \"\\n\"
-expect ':'
-	send \"\\n\"
-expect eof
-"
+# expect -c "
+# set timeout 2
+# spawn ssh-keygen -t rsa
+# expect ':'
+# 	send \"\\n\"
+# expect ':'
+# 	send \"\\n\"
+# expect ':'
+# 	send \"\\n\"
+# expect eof
+# "
+
+
+ssh-keygen -b 4096 -t rsa -f /root/.ssh/id_rsa -q -N ''
 
 
 cat << EOF > ${HTTP_HOME}/install-config.yaml
