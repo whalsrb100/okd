@@ -14,9 +14,8 @@ source src/env
 ################################################
 echo -ne "\nExecute Command: openshift-install wait-for install-complete --dir=${OKD_HOME} --log-level debug"
 for i in $(seq 1 3);do echo -n '.';done && echo
-openshift-install wait-for install-complete --dir=${OKD_HOME} --log-level debug &
+openshift-install wait-for install-complete --dir=${OKD_HOME} --log-level debug
 export KUBECONFIG=${OKD_HOME}/auth/kubeconfig
 oc get co
 echo "export KUBECONFIG=${OKD_HOME}/auth/kubeconfig"
 echo "oc get co"
-
