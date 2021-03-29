@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ONPREMIS=true
+
 MASTER_NUM=3
 WORKER_NUM=2
 
@@ -63,4 +65,4 @@ KEY='/opt/registry/certs/domain.key'
 HTPASS_USER='admin'
 HTPASS_PW='admin'
 PullSecret='/opt/registry/pull-secret'
-OCVersion=$(/usr/local/bin/oc version | awk '{print $NF}' | head -n 1)
+OCVersion=$(/usr/local/bin/oc version | awk '{print $NF}' | head -n1)
