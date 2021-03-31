@@ -154,6 +154,4 @@ for i in $(seq 1 ${WORKER_NUM});do
     fi
   fi
 done
-systemctl enable haproxy
-systemctl stop haproxy
-systemctl start haproxy
+systemctl enable --now haproxy

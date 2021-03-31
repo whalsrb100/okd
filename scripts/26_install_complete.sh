@@ -19,3 +19,4 @@ export KUBECONFIG=${OKD_HOME}/auth/kubeconfig
 oc get co
 echo "export KUBECONFIG=${OKD_HOME}/auth/kubeconfig"
 echo "oc get co"
+

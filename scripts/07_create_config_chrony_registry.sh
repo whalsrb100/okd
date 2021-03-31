@@ -82,3 +82,5 @@ mirror-by-digest-only = true
 location = "${BASTION_HOSTNAME}.${ClusterName}.${DomainName}:5000/openshift/okd"
 insecure = true
 EOF
+
+

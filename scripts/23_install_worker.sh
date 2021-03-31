@@ -32,3 +32,4 @@ for i in $(seq 1 ${WORKER_NUM});do
     fi
   fi
 done
+

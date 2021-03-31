@@ -1,7 +1,4 @@
 #!/bin/bash
-vim src/env
-[root@bastion scripts]# cat 02_set_os_config.sh 
-#!/bin/bash
 source src/env
 hostnamectl set-hostname ${BASTION_HOSTNAME}.${ClusterName}.${DomainName}
 systemctl restart rsyslog systemd-hostnamed
@@ -11,3 +8,4 @@ systemctl disable --now firewalld
 
 sed -i "s/#   StrictHostKeyChecking ask/   StrictHostKeyChecking no/" /etc/ssh/ssh_config
 systemctl restart sshd
+
