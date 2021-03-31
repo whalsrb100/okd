@@ -4,8 +4,8 @@ DEFAULT_GATEWAY=${BASTION_IP}
 DNS=${BASTION_IP}
 
 mkdir /var/lib/tftpboot/pxelinux.cfg/
-ln -s pxelinux.cfg/default /var/lib/tftpboot/default
-ln -s var/lib/tftpboot /tftpboot
+ln -sf pxelinux.cfg/default /var/lib/tftpboot/default
+ln -sf var/lib/tftpboot /tftpboot
 
 cp /usr/share/syslinux/{menu.c32,ldlinux.c32,libutil.c32,pxelinux.0} /var/lib/tftpboot/
 cat << EOF > /var/lib/tftpboot/pxelinux.cfg/default
