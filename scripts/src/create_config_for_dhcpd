@@ -40,18 +40,27 @@ elif [ "${pinfo}" == "range_max"   ];then echo $(expr ${network} \+ ${max})
 fi
 }
 
-echo -en "DHCP SERVER IP cidr format (example:1.2.3.0/24): "
-read INPUT
-
-if [ $(echo ${INPUT} | cut -d '/' -f2) -gt 32 ];then
-  echo 'ERROR Prefix'
-  exit 1
-fi
-for i in $(seq 1 4);do
-  if [ $(echo ${INPUT} | cut -d '/' -f1 | cut -d '.' -f${i}) -gt 255 ];then
-    echo 'ERROR network address'
-    exit 1
+while [ true ];do
+  echo -en "DHCP SERVER IP cidr format (example:1.2.3.0/24): "
+  read INPUT
+  if [ $(echo ${INPUT} | grep -o '/' | wc -l) -ne 1 ];then
+    echo 'Please Input CIDR'
+    continue
   fi
+  if [ $(echo ${INPUT} | cut -d '/' -f2) -gt 32 ];then
+    echo 'ERROR Prefix'
+    continue
+  elif [ $(echo ${INPUT} | cut -d '/' -f2) -lt 0 ];then
+    echo 'ERROR Prefix'
+    continue
+  fi
+  for i in $(seq 1 4);do
+    if [ $(echo ${INPUT} | cut -d '/' -f1 | cut -d '.' -f${i}) -gt 255 ];then
+      echo 'ERROR network address'
+      continue
+    fi
+  done
+  break
 done
 DHCPSUBNETMASK=$(echo ${INPUT} | cut -d '/' -f2)
 DHCPNETWORK=$(echo ${INPUT} | cut -d '/' -f1)
