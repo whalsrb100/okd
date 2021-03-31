@@ -3,7 +3,10 @@ source src/env
 DEFAULT_GATEWAY=${BASTION_IP}
 DNS=${BASTION_IP}
 
-mkdir /var/lib/tftpboot/pxelinux.cfg/
+if [ ! -d /var/lib/tftpboot/pxelinux.cfg ];then
+  mkdir /var/lib/tftpboot/pxelinux.cfg/
+fi
+
 if [ -e /var/lib/tftpboot/default ];then
   unlink /var/lib/tftpboot/default
 fi
