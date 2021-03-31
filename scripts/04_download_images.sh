@@ -34,3 +34,4 @@ https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/${Ver}/x86_64
 mv fedora-coreos-${Ver}-live-rootfs.x86_64.img ${HTTP_HOME}/img/rootfs.img
 
 fi
+echo "Version: ${Ver}"
